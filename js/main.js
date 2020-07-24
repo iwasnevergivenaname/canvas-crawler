@@ -34,7 +34,7 @@ function Crawler(x, y, w, h, color) {
 
 // character refs
 let ogre = new Crawler(300, 100, 80, 120, "chartreuse");
-let hero = new Crawler(20, 100, 50, 50, "hotpink");
+let hero = new Crawler(200, 100, 50, 50, "hotpink");
 
 // game loop
 function gameLoop() {
@@ -51,12 +51,23 @@ function gameLoop() {
 }
 
 // movement
+// w: 87 a: 65 s: 83 d:68
 function movementHandler(e) {
     console.log("e");
 //    user presses W,
     if (e.keyCode === 87 && hero.y > 0) {
+        // keypress W
         //decrease heroes y co-ord
         hero.y -= 5;
+    } else if (e.keyCode === 83 && hero.y + hero.h < 400) {
+        // keypress S
+        hero.y += 5;
+    } else if (e.keyCode === 65 && hero.x > 0) {
+        // keypress A
+        hero.x -= 5;
+    } else if (e.keyCode === 68 && hero.x + hero.w < 800) {
+        // keypress D
+        hero.x += 5;
     }
 //    hero moves up
 }
