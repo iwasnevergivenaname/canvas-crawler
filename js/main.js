@@ -36,6 +36,18 @@ function Crawler(x, y, w, h, color) {
 let ogre = new Crawler(300, 100, 80, 120, "chartreuse");
 let hero = new Crawler(200, 100, 50, 50, "hotpink");
 
+
+// checking for any over lap of hero onto ogre
+function detectHit() {
+    if (hero.x + hero.w > ogre.x &&
+        hero.x < ogre.x + ogre.w &&
+        hero.y + hero.h > ogre.y &&
+        hero.y < ogre.y + ogre.h) {
+        console.log("💥collision💥");
+        ogre.alive = false;
+    }
+}
+
 // game loop
 function gameLoop() {
 //    clear canvas
@@ -43,8 +55,9 @@ function gameLoop() {
 //    display x y co-ords of hero to DOM
     movementDisplay.textContent = `x: ${hero.x} & y: ${hero.y}`;
 //    check if ogre is alive
-    if (ogre.alive)  {
+    if (ogre.alive) {
         ogre.render();
+        detectHit();
     }
 //    render hero
     hero.render();
@@ -53,23 +66,27 @@ function gameLoop() {
 // movement
 // w: 87 a: 65 s: 83 d:68
 function movementHandler(e) {
-    console.log("e");
 //    user presses W,
-    if (e.keyCode === 87 && hero.y > 0) {
-        // keypress W
-        //decrease heroes y co-ord
-        hero.y -= 5;
-    } else if (e.keyCode === 83 && hero.y + hero.h < 400) {
-        // keypress S
-        hero.y += 5;
-    } else if (e.keyCode === 65 && hero.x > 0) {
-        // keypress A
-        hero.x -= 5;
-    } else if (e.keyCode === 68 && hero.x + hero.w < 800) {
-        // keypress D
-        hero.x += 5;
+    switch (e.keyCode) {
+        // W keypress moves up
+        case (87):
+            if (hero.y > 0) hero.y -= 10;
+            break;
+        //    S keypress moves down
+        case (83):
+            if (hero.y + hero.h < game.height) hero.y += 10;
+            break;
+        //    A keypress moves left
+        case (65):
+            if (hero.x > 0) hero.x -= 10;
+            break;
+        //    D keypress right
+        case (68):
+            if (hero.x + hero.w < game.width) hero.x += 10;
+            break;
+        default:
+            console.log("something is wrong with keypress");
     }
-//    hero moves up
 }
 
 // shows green ogres where you click
